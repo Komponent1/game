@@ -1,10 +1,17 @@
-import { tMove } from "../move";
+import * as PIXI from 'pixi.js';
 
+export type tMove = {
+  src?: string,
+  velocity: { x: number, y: number },
+  keybind?: (sprite: PIXI.Sprite) => void,
+  event: (delta: number, sprite: PIXI.Sprite) => void
+}
 export type tComponent = {
   /* object's name */
   name: string,
   src: string,
-  
+  animate: boolean,
+
   /* positon */
   position: {
     x: number, y: number
@@ -24,16 +31,10 @@ export type tComponent = {
     x: number, y: number
   }
   /* default animation of objs, This work in ticker */
-  animation?: Function,
   move?: tMove
   /* event binder, binding Event */
   
 };
-export default (): tComponent => ({
-  name: 'object',
-  src: 'square',
-  position: { x: 0, y: 0 },
-  size: { w: 100, h: 100 },
-  rotation: 0,
-  pivot: { x: 50, y: 50 },
-});
+
+export { Component } from './component';
+export { Move, Keyboard } from './move';
