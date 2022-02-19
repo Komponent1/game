@@ -21,16 +21,18 @@ export const Keyboard = (value: string | number) => {
   };
   
   key.downHandler = (event: KeyboardEvent) => {
+    console.log('down', key)
     if (event.key === key.value) {
       if (key.isUp && key.press) {
         key.press();
       }
+      key.isDown = true;
+      key.isUp = false;
     }
-    key.isDown = true;
-    key.isUp = false;
     event.preventDefault();
   };
   key.upHandler = (event: KeyboardEvent) => {
+    console.log('up', key)
     if (event.key === key.value) {
       if (key.isDown && key.release) {
         key.release();
