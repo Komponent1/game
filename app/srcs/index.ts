@@ -1,10 +1,7 @@
 import * as PIXI from 'pixi.js';
-import rsc from '../resource';
+import engine from './engine';
+import * as comps from './component';
+import '../public/style.css';
 
-const app = new PIXI.Application({ width: 640, height: 360 });
-document.body.appendChild(app.view);
-
-const sprite = PIXI.Sprite.from(rsc.cha);
-sprite.width = 100;
-sprite.height = 100;
-app.stage.addChild(sprite);
+const app = engine(document.getElementById('root'));
+Object.entries(comps).forEach(([key, value]) => app.setObj(value));
