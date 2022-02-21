@@ -13,6 +13,7 @@ export type tComponent = {
     name: string
     src: string[],
     animate: boolean,
+    animateInterval: number,
   },
   initial: {
     /* positon */
@@ -42,7 +43,20 @@ export type tComponent = {
   collision?: Object,
 
   setPosition: Function
+}
+export type tCollision = {
+  tag: string,
+  name: string,
+  state: boolean,
+  type: string,
+  position: { x: number, y: number },
+}
+export type tCircleCollision = tCollision & {
+  r: number
 };
+export type tSquareCollision = tCollision & {
+  size: { w: number, h: number }
+}
 
 export { Component } from './component';
 export { Move } from './move';

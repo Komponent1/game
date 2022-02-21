@@ -1,15 +1,31 @@
-import * as PIXI from 'pixi.js';
+import { tCircleCollision, tSquareCollision } from '.';
 
-export type tCircleCollision = {
-  state: boolean,
-  position: { x: number, y: number },
-  r: number
-}
-
-const CircleCollision = (sprite: PIXI.Sprite) => {
+export const CircleCollision = (initial): tCircleCollision => {
   return {
-    
+    tag: '',
+    name: '',
+    state: true,
+    type: 'circle',
+    position: { 
+      x: initial.position.x + initial.pivot.x,
+      y: initial.position.y + initial.pivot.y 
+    },
+    r: 10
   }
 };
-
-export default CircleCollision;
+export const Squrecollision = (initial): tSquareCollision => {
+  return {
+    tag: '',
+    name: '',
+    state: true,
+    type: 'square',
+    position: {
+      x: initial.position.x,
+      y: initial.position.y
+    },
+    size: {
+      w: 10,
+      h: 10
+    }
+  }
+}
