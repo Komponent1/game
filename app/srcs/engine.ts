@@ -2,59 +2,56 @@ import * as PIXI from 'pixi.js';
 import imgs from '../resource';
 import { tComponent } from './type'
 
-const engine = (parent: HTMLElement) => {
+const engine = (parent: HTMLElement, objs: tComponent[]) => {
   const app = new PIXI.Application({ resizeTo: window });
   const loader = PIXI.Loader.shared;
   const resource = PIXI.Loader.shared.resources;
 
-  const setObj = ({ name, src, animate, position, size, scale, rotation, pivot, move }: tComponent)  => {
-    const setup = () => {
-      let sprite: PIXI.Sprite = null;
+  const setup = (obj: tComponent) => {
+    let sprite: PIXI.Sprite = null;
+    const { state, initial, move } = obj;
 
-      if (!animate) {
-        sprite = PIXI.Sprite.from(imgs[src].texture);
-      } else {
-        sprite = PIXI.AnimatedSprite.fromFrames(imgs[src]);
-        sprite.animationSpeed = 0.1;
-        sprite.play();
-      }
-
-      sprite.position.set(position.x, position.y);
-      sprite.width = size.w;
-      sprite.height = size.h;
-      sprite.pivot.set(pivot.x, pivot.y);
-      sprite.rotation = rotation;
-      scale? sprite.scale.set(scale.x, scale.y) : null;
-
-      app.stage.addChild(sprite);
-
-      const gameLoop = (delta, sprite) => {
-        sprite.x += sprite.velocity.x;
-        sprite.y += sprite.velocity.y;
-        move?.event(delta, sprite);
-      }
-
-      const setMove = () => {
-        sprite.velocity = move.velocity;
-        move.keybind ? move.keybind(sprite) : null;
-        app.ticker.add(delta => gameLoop(delta, sprite));
-      };
-
-      if (move) {
-        move.src? loader.add(imgs[move.src]).load(setMove) : setMove();
-      }      
+    if (!state.animate) {
+      sprite = PIXI.Sprite.from(resource[state.src[0]].texture);
+    } else {
+      sprite = PIXI.AnimatedSprite.fromFrames(state.src);
+      sprite.animationSpeed = 0.1;
+      sprite.play();
     }
+    sprite.name = name;
+    sprite.position.set(initial.position.x, initial.position.y);
+    sprite.width = initial.size.w;
+    sprite.height = initial.size.h;
+    sprite.pivot.set(initial.pivot.x, initial.pivot.y);
+    sprite.rotation = initial.rotation;
+    initial.scale? sprite.scale.set(initial.scale.x, initial.scale.y) : null;
+    obj.sprite = sprite;
 
+    app.stage.addChild(sprite);
     
+    const setMove = () => {
+      move.keybind ? move.keybind(sprite) : null;
+      app.ticker.add(delta => move.update(delta));
+      app.ticker.add(delta => move.fixedUpdate(delta));
+    };
+    if (move) {
+      setMove();
+    }      
+  }
 
-    loader
-      .add(imgs[src])
-      .load(setup);
-  };
+  const setObjs = () => {
+    for (let i = 0; i < objs.length; i++) {
+      setup(objs[i])
+    }
+  }
+
+  loader
+    .add(Object.entries(imgs).map(([key, value]) => value))
+    .load(setObjs);
 
   parent.appendChild(app.view);
 
-  return { app, loader, resource, setObj }
+  return { app, loader, resource }
 };
 
 export default engine;
