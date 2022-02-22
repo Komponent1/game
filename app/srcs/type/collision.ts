@@ -13,7 +13,7 @@ export const CircleCollision = (initial): tCircleCollision => {
     r: 10
   }
 };
-export const Squrecollision = (initial): tSquareCollision => {
+export const SquareCollision = (initial): tSquareCollision => {
   return {
     tag: '',
     name: '',

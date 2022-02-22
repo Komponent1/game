@@ -18,19 +18,47 @@ export const Component = (): tComponent => {
     },
     sprite: null,
     
-    setPosition: function(x: number, y: number) {
+    setPositionX: function(x: number) {
       if (!this.sprite) throw Error('no sprite loaded');
 
-      this.sprite.position.x = x;
-      this.sprite.position.y = y;
-  
       if (this.collision) {
-        this.collision.position.x = x + this.sprite.pivot.x;
-        this.collision.position.y = y + this.sprite.pivot.y;
+        const _x = this.collision.x;
+        this.collision.position.x = x;
+
+        if (collisions.some(col => checkCollision(this.collision, col, 'ground'))) {
+          this.collision.position.x = _x;
+          this.move.velocity.x = 0;
+          return;
+        }
       }
+
+      this.sprite.position.x = x;
+    },
+    setPositionY: function(y: number) {
+      if (!this.sprite) throw Error('no sprite loaded');
+
+      if (this.collision) {
+        const _y = this.collision.y;
+        this.collision.position.y = y;
+
+        if (collisions.some(col => checkCollision(this.collision, col, 'ground'))) {
+          this.collision.position.y = _y;
+          this.move.velocity.y = 0;
+          return;
+        }
+      }
+
+      this.sprite.position.y = y;
+    },
+    setPosition: function(x: number, y: number) {
+      if (!this.sprite) throw Error('no sprite loaded');
+      this.setPositionX(x);
+      this.setPositionY(y);
     },
   }
   comp.setPosition = comp.setPosition.bind(comp);
+  comp.setPositionX = comp.setPositionX.bind(comp);
+  comp.setPositionY = comp.setPositionY.bind(comp);
 
   return comp;
 }

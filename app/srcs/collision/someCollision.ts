@@ -1,10 +1,10 @@
-import { CircleCollision } from "../type/collision";
+import { SquareCollision } from "../type/collision";
 
 const someCollision = (initial) => {
-  const collision = CircleCollision(initial);
+  const collision = SquareCollision(initial);
   collision.tag = 'player';
   collision.name = 'some';
-  collision.r = 50;
+  collision.size = { w: 25, h: 25 };
 
   return collision;
 };

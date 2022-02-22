@@ -1,13 +1,13 @@
 import { tSquareCollision } from "../type";
 import { SquareCollision } from "../type/collision";
 
-const groundCollision = (initial): tSquareCollision => {
+const wallCollision = (initial): tSquareCollision => {
   const collision = SquareCollision(initial);
   collision.tag = 'ground';
-  collision.name = 'ground',
-  collision.size = { w: 500, h: 100 }
+  collision.name = 'wall',
+  collision.size = { w: 20, h: 500 }
 
   return collision;
 };
 
-export default groundCollision;
+export default wallCollision;

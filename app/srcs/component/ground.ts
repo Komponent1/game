@@ -1,6 +1,5 @@
 import { Component } from '../type';
 import resource from '../../resource';
-import { Squrecollision } from '../type/collision';
 import { groundCollision } from '../collision';
 
 const ground = Component();
@@ -14,7 +13,7 @@ ground.state = {
 ground.initial = {
   ...ground.initial,
   position: { x: 0, y: 325 },
-  scale: {x : 10, y : 1}
+  size: {w : 500, h : 50}
 }
 ground.collision = groundCollision(ground.initial)
 
