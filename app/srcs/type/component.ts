@@ -30,6 +30,7 @@ export const Component = (): tComponent => {
           this.move.velocity.x = 0;
           return;
         }
+        if (this.collision.sprite) this.collision.sprite.x = x;
       }
 
       this.sprite.position.x = x;
@@ -47,6 +48,7 @@ export const Component = (): tComponent => {
           return;
         }
       }
+      if (this.collision.sprite) this.collision.sprite.y = y;
 
       this.sprite.position.y = y;
     },

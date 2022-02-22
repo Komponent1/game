@@ -2,6 +2,7 @@ import { tCircleCollision, tSquareCollision } from '.';
 
 export const CircleCollision = (initial): tCircleCollision => {
   return {
+    sprite: null,
     tag: '',
     name: '',
     state: true,
@@ -15,6 +16,7 @@ export const CircleCollision = (initial): tCircleCollision => {
 };
 export const SquareCollision = (initial): tSquareCollision => {
   return {
+    sprite: null,
     tag: '',
     name: '',
     state: true,

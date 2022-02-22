@@ -1,8 +1,12 @@
 import * as PIXI from 'pixi.js';
-import { tCollision, tComponent } from './type'
+import { tCollision, tComponent, tSquareCollision, tCircleCollision } from './type'
 
 export const components: tComponent[] = [];
 export const collisions: tCollision[] = [];
+
+export const option = {
+  collide: true,
+}
 
 const initSprite = (sprite, state, initial) => {
   sprite.name = state.name;
@@ -54,6 +58,27 @@ export const setPhysics = (app, components: tComponent[]) => {
   }
 }
 
+export const setColliders = (app, collisions: tCollision[], renderer) => {
+  if (!option.collide) return;
+
+  for (let i = 0; i < collisions.length; i++) {
+    const graphic = new PIXI.Graphics();
+    graphic.lineStyle(2, 0x00FF00);
+    
+    if (collisions[i].type === 'circle') {
+      graphic.drawCircle(0, 0, (collisions[i] as tCircleCollision).r);
+    } else if (collisions[i].type === 'square') {
+      graphic.drawRect(0, 0,
+        (collisions[i] as tSquareCollision).size.w, (collisions[i] as tSquareCollision).size.h);
+    }
+    const texture = app.renderer.generateTexture(graphic);
+    const collide = new PIXI.Sprite(texture);
+    collide.position.set(collisions[i].position.x, collisions[i].position.y);
+    app.stage.addChild(collide);
+    collisions[i].sprite = collide;
+  }
+}
+
 export const load = (loader, imgs, callback) => {
   loader.add(imgs).load(() => callback(loader))
 }
@@ -62,10 +87,11 @@ const engine = (parent: HTMLElement) => {
   const app = new PIXI.Application({ resizeTo: window });
   const loader = PIXI.Loader.shared;
   const resource = PIXI.Loader.shared.resources;
+  const renderer = PIXI.Renderer;
 
   parent.appendChild(app.view);
 
-  return { app, loader, resource }
+  return { app, loader, resource, renderer }
 };
 
 export default engine;

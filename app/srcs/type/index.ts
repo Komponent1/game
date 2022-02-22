@@ -42,6 +42,8 @@ export type tComponent = {
   /* event binder, binding Event */
   collision?: Object,
 
+  setPositionX: Function,
+  setPositionY: Function,
   setPosition: Function
 }
 export type tCollision = {
@@ -50,6 +52,7 @@ export type tCollision = {
   state: boolean,
   type: string,
   position: { x: number, y: number },
+  sprite: null
 }
 export type tCircleCollision = tCollision & {
   r: number
