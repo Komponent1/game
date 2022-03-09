@@ -1,6 +1,8 @@
 import * as PIXI from 'pixi.js';
 import { tCollision, tComponent, tSquareCollision, tCircleCollision } from './type'
 
+const DEV = false;
+
 export const components: tComponent[] = [];
 export const collisions: tCollision[] = [];
 

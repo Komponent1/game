@@ -27,8 +27,8 @@ export const Keyboard = (value: string | number) => {
       }
       key.isDown = false;
       key.isUp = true;
-      event.preventDefault();
     }
+    event.preventDefault();
   }
 
   window.addEventListener('keydown', key.downHandler, false);

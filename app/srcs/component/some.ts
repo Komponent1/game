@@ -13,44 +13,40 @@ some.state = {
 }
 some.initial.position = { x: 50, y: 200 };
 
-some.move = Move([resource.ball_move1, resource.ball2, resource.ball_move3]);
+some.move = Move([resource.ball_move1, resource.ball2, resource.ball_move3], 1);
 some.collision = someCollision(some.initial)
 
 some.move.keybind = function () {
   const right = Keyboard('ArrowRight');
   right.press = () => {
-    this.move.velocity.x = 1;
-    this.sprite.scale.x = 1;
+    this.move.acceleration.x += 1;
     setAnimateTexture(this.sprite, some.move.src);
   };
   right.release = () => {
-    this.move.velocity.x = 0;
+    this.move.acceleration.x -= 1;
     setAnimateTexture(this.sprite, some.state.src);
   }
 
   const left = Keyboard('ArrowLeft');
   left.press = () => {
-    this.move.velocity.x = -1;
-    this.sprite.scale.x = -1;
+    this.move.acceleration.x -= 1;
     setAnimateTexture(this.sprite, some.move.src);
   }
   left.release = () => {
-    this.move.velocity.x = 0;
+    this.move.acceleration.x += 1;
     setAnimateTexture(this.sprite, some.state.src);
   }
 
   const space = Keyboard('ArrowUp');
   space.press = () => {
-    this.move.velocity.y = -5;
+    this.move.acceleration.y -= 10;
   }
 }.bind(some);
 some.move.update = function (delta) {
-  let x = this.sprite.position.x + this.move.velocity.x;
-  let y = this.sprite.position.y + this.move.velocity.y;
-  this.setPosition(x, y);
+  this.setVelocity();
 }.bind(some)
 some.move.fixedUpdate = function (delta, sprite) {
-  this.move.velocity.y += 0.1;
+  this.setPosition();
 }.bind(some)
  
 export default some;

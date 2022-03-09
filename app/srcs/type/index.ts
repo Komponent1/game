@@ -3,9 +3,10 @@ import * as PIXI from 'pixi.js';
 export type tMove = {
   src?: string[],
   velocity: { x: number, y: number },
+  acceleration: { x: number, y: number },
   keybind?: (sprite: PIXI.Sprite) => void,
   update: (delta: number) => void,
-  fixedUpdate: (delta: number) => void
+  fixedUpdate: (delta: number) => void,
 }
 export type tComponent = {
   /* object's name */
@@ -44,7 +45,10 @@ export type tComponent = {
 
   setPositionX: Function,
   setPositionY: Function,
-  setPosition: Function
+  setPosition: Function,
+  setVelocityX: Function,
+  setVelocityY: Function,
+  setVelocity: Function,
 }
 export type tCollision = {
   tag: string,
