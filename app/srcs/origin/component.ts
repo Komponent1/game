@@ -1,34 +1,29 @@
-import { tComponent } from './';
+import *  as PIXI from 'pixi.js';
+import { tComponent } from '../type';
 import { collisions } from '../engine';
 import { checkCollision } from '../utils';
 
 export const Component = (): tComponent => {
   const comp = {
-    state: {
+    sprite: null,
+    attr: {
       name: 'object',
       src: ['block'],
       animate: false,
-      animateInterval: 0,
     },
-    initial: {
+    state: {
       position: { x: 0, y: 0 },
       size: { w: 100, h: 100 },
       rotation: 0,
       pivot: { x: 50, y: 50 },
     },
-    sprite: null,
     setVelocityX: function(max = 2) {
       if (!this.sprite) throw Error('no sprite loaded');
-      
-      const x = this.move.velocity.x + this.move.acceleration.x;
-      this.move.velocity.x = Math.abs(x) > Math.abs(max) ? max : x;
+      this.move.velocity.x += this.move.acceleration.x;
     },
-    setVelocityY: function(max = 10) {
+    setVelocityY: function(max = 2) {
       if (!this.sprite) throw Error('no sprite loaded');
-
-      const y = this.move.velocity.y + this.move.acceleration.y;
-      this.move.velocity.y = Math.abs(y) > Math.abs(max) ? max * Math.abs(y)/y : y;
-      this.move.acceleration.y = 1;
+      this.move.velocity.y += this.move.acceleration.y;
     },
     setVelocity: function() {
       this.setVelocityX();
@@ -44,7 +39,7 @@ export const Component = (): tComponent => {
 
         if (collisions.some(col => checkCollision(this.collision, col, 'ground'))) {
           this.collision.position.x = _x;
-          this.velocity.x = 0;
+
           return;
         }
         if (this.collision.sprite) this.collision.sprite.x = x;
@@ -61,6 +56,7 @@ export const Component = (): tComponent => {
         this.collision.position.y = y;
 
         if (collisions.some(col => checkCollision(this.collision, col, 'ground'))) {
+          this.move.velocity.y = 0;
           this.collision.position.y = _y;
           return;
         }
@@ -82,6 +78,5 @@ export const Component = (): tComponent => {
   comp.setVelocityX = comp.setVelocityX.bind(comp);
   comp.setVelocityX = comp.setVelocityX.bind(comp);
   
-
   return comp;
 }

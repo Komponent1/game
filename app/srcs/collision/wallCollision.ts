@@ -1,5 +1,5 @@
 import { tSquareCollision } from "../type";
-import { SquareCollision } from "../type/collision";
+import { SquareCollision } from "../origin/collision";
 
 const wallCollision = (initial): tSquareCollision => {
   const collision = SquareCollision(initial);

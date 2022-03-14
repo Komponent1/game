@@ -6,7 +6,7 @@ const path = require('path');
 module.exports = {
     entry: path.join(__dirname, '../srcs/index.ts'),
     resolve: {
-        extensions: [".ts", ".js"],
+        extensions: [".ts", ".js", ".d.ts"],
     },
 
     module: {

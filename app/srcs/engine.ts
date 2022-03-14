@@ -10,14 +10,14 @@ export const option = {
   collide: true,
 }
 
-const initSprite = (sprite, state, initial) => {
-  sprite.name = state.name;
-  sprite.position.set(initial.position.x, initial.position.y);
-  sprite.width = initial.size.w;
-  sprite.height = initial.size.h;
-  sprite.pivot.set(initial.pivot.x, initial.pivot.y);
-  sprite.rotation = initial.rotation;
-  initial.scale? sprite.scale.set(initial.scale.x, initial.scale.y) : null;
+const initSprite = (sprite, attr, state) => {
+  sprite.name = attr.name;
+  sprite.position.set(state.position.x, state.position.y);
+  sprite.width = state.size.w;
+  sprite.height = state.size.h;
+  sprite.pivot.set(state.pivot.x, state.pivot.y);
+  sprite.rotation = state.rotation;
+  state.scale? sprite.scale.set(state.scale.x, state.scale.y) : null;
 
   return sprite;
 }
@@ -25,16 +25,16 @@ const initSprite = (sprite, state, initial) => {
 export const setComponents = (app, resource, objs: tComponent[]) => {
   const setup = (obj: tComponent) => {
     let sprite: PIXI.Sprite = null;
-    const { state, initial } = obj;
+    const { attr, state } = obj;
 
-    if (!state.animate) {
-      sprite = new PIXI.Sprite(resource[state.src[0]].texture);
+    if (!attr.animate) {
+      sprite = new PIXI.Sprite(resource[attr.src[0]].texture);
     } else {
-      sprite = PIXI.AnimatedSprite.fromFrames(state.src);
-      sprite.animationSpeed = state.animateInterval;
+      sprite = PIXI.AnimatedSprite.fromFrames(attr.src);
+      sprite.animationSpeed = attr.animateInterval;
       sprite.play();
     }
-    obj.sprite = initSprite(sprite, state, initial);
+    obj.sprite = initSprite(sprite, attr, state);
     components.push(obj);
 
     obj.collision? collisions.push(obj.collision) : null;
@@ -53,7 +53,6 @@ export const setPhysics = (app, components: tComponent[]) => {
 
     move.keybind ? move.keybind(comp.sprite) : null;
     app.ticker.add(delta => move.update(delta));
-    app.ticker.add(delta => move.fixedUpdate(delta));
   };
   for (let i = 0; i < components.length; i++) {
     setMove(components[i]);

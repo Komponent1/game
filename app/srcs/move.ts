@@ -1,16 +1,3 @@
-export type tMove = {
-  velocity: { x: number, y: number },
-  keybind?: (sprite) => void,
-  event: (delta, sprite) => void
-}
-
-export const Move = (): tMove => {
-  return {
-    velocity: {x : 0, y: 0},
-    event: (delta, sprite) => {}
-  }
-}
-
 export const Keyboard = (value: string | number) => {
   const key = {
     value: value,

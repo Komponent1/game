@@ -1,4 +1,4 @@
-import { tCircleCollision, tSquareCollision } from '.';
+import { tCircleCollision, tSquareCollision } from "../type";
 
 export const CircleCollision = (initial): tCircleCollision => {
   return {
@@ -14,6 +14,7 @@ export const CircleCollision = (initial): tCircleCollision => {
     r: 10
   }
 };
+
 export const SquareCollision = (initial): tSquareCollision => {
   return {
     sprite: null,

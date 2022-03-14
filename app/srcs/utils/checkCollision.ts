@@ -1,4 +1,4 @@
-import { tCircleCollision, tSquareCollision } from "../type";
+import { tCircleCollision, tSquareCollision } from "../origin";
 
 const pointCircleCollision = (cir: tCircleCollision, x: number, y: number): boolean => {
   const deltaX = cir.position.x - x;

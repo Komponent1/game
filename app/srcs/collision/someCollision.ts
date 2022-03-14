@@ -1,4 +1,4 @@
-import { SquareCollision } from "../type/collision";
+import { SquareCollision } from "../origin/collision";
 
 const someCollision = (initial) => {
   const collision = SquareCollision(initial);
