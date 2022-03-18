@@ -33,8 +33,9 @@ export const Component = (): tComponent => {
       if (!this.sprite) throw Error('no sprite loaded');
 
       const x = this.sprite.position.x + this.move.velocity.x;
+      
       if (this.collision) {
-        const _x = this.collision.x;
+        const _x = this.collision.position.x;
         this.collision.position.x = x;
 
         if (collisions.some(col => checkCollision(this.collision, col, 'ground'))) {
@@ -52,7 +53,7 @@ export const Component = (): tComponent => {
 
       const y = this.sprite.position.y + this.move.velocity.y; 
       if (this.collision) {
-        const _y = this.collision.y;
+        const _y = this.collision.position.y;
         this.collision.position.y = y;
 
         if (collisions.some(col => checkCollision(this.collision, col, 'ground'))) {
@@ -75,8 +76,10 @@ export const Component = (): tComponent => {
   comp.setPosition = comp.setPosition.bind(comp);
   comp.setPositionX = comp.setPositionX.bind(comp);
   comp.setPositionY = comp.setPositionY.bind(comp);
+  comp.setVelocity = comp.setVelocity.bind(comp);
   comp.setVelocityX = comp.setVelocityX.bind(comp);
   comp.setVelocityX = comp.setVelocityX.bind(comp);
+  
   
   return comp;
 }
